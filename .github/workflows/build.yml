@@ -25,12 +25,12 @@ jobs:
         # 安装 Ninja 构建工具并运行自定义构建脚本 build.sh
         run: sudo apt-get install ninja-build && chmod +x build.sh && ./build.sh
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Polairs-Obfuscator # 上传的构建产物名称
-          path: src/build          # 指定构建产物路径
-          retention-days: 30       # 设置存储天数为 30 天
+     # - name: Upload Build Artifacts
+       # uses: actions/upload-artifact@v4
+      #  with:
+        #  name: Polairs-Obfuscator # 上传的构建产物名称
+        #  path: src/build          # 指定构建产物路径
+       #   retention-days: 30       # 设置存储天数为 30 天
 
       - name: Upload release
         # 仅在以下条件满足时发布新版本：

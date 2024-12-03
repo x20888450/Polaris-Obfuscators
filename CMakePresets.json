@@ -1,0 +1,65 @@
+{
+	"version": 6,
+	"configurePresets": [
+		{
+			"name": "build_execute",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_C_FLAGS_RELEASE": "-static -w -Wl,--as-needed -Wl,--exclude-libs,ALL -Wl,--gc-sections -Wl,--strip-all -flto -ffunction-sections -fdata-sections -fvisibility=hidden -fstack-protector -fPIE -pie -Wl,-z,now -Wl,-z,relro -fstack-protector-strong -Wl,-z,defs -Wl,-z,noexecstack",
+				"CMAKE_CXX_FLAGS_RELEASE": "-static -w -Wl,--as-needed -Wl,--exclude-libs,ALL -Wl,--gc-sections -Wl,--strip-all -flto -ffunction-sections -fdata-sections -fvisibility=hidden -fstack-protector -fPIE -pie -Wl,-z,now -Wl,-z,relro -fstack-protector-strong -Wl,-z,defs -Wl,-z,noexecstack",
+				"CMAKE_SYSTEM_NAME": "Android",
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_CXX_STANDARD": "20",
+				"CMAKE_SYSTEM_VERSION": "34"
+			}
+		},
+		{
+			"name": "build_shared",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_C_FLAGS_RELEASE": "-w -Wl,--as-needed -Wl,--exclude-libs,ALL -Wl,--gc-sections -Wl,--strip-all -flto -ffunction-sections -fdata-sections -fvisibility=hidden -fstack-protector -fPIE -pie -Wl,-z,now -Wl,-z,relro -fstack-protector-strong -Wl,-z,defs -Wl,-z,noexecstack",
+				"CMAKE_CXX_FLAGS_RELEASE": "-w -Wl,--as-needed -Wl,--exclude-libs,ALL -Wl,--gc-sections -Wl,--strip-all -flto -ffunction-sections -fdata-sections -fvisibility=hidden -fstack-protector -fPIE -pie -Wl,-z,now -Wl,-z,relro -fstack-protector-strong -Wl,-z,defs -Wl,-z,noexecstack",
+				"CMAKE_SYSTEM_NAME": "Android",
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_CXX_STANDARD": "20",
+				"CMAKE_SYSTEM_VERSION": "34"
+			}
+		},
+		{
+			"name": "arm_build_execute",
+			"inherits": "build_execute",
+			"cacheVariables": {
+				"CMAKE_ANDROID_ARCH": "arm",
+				"CMAKE_ANDROID_ARM_MODE": "ON",
+				"CMAKE_ANDROID_ARM_NEON": "ON"
+			}
+		},
+		{
+			"name": "arm_build_shared",
+			"inherits": "build_shared",
+			"cacheVariables": {
+				"CMAKE_ANDROID_ARCH": "arm",
+				"CMAKE_ANDROID_ARM_MODE": "ON",
+				"CMAKE_ANDROID_ARM_NEON": "ON"
+			}
+		},
+		{
+			"name": "arm64_build_execute",
+			"inherits": "build_execute",
+			"cacheVariables": {
+				"CMAKE_ANDROID_ARCH": "arm64",
+				"CMAKE_ANDROID_ARCH_ABI": "arm64-v8a"
+			}
+		},
+		{
+			"name": "arm64_build_shared",
+			"inherits": "build_shared",
+			"cacheVariables": {
+				"CMAKE_ANDROID_ARCH": "arm64",
+				"CMAKE_ANDROID_ARCH_ABI": "arm64-v8a"
+			}
+		}
+	]
+}

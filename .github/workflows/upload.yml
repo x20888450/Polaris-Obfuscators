@@ -20,7 +20,7 @@ jobs:
       # 下载目标文件
       - name: Download Artifact
         run: |
-          curl -L Polaris-Obfuscators.zip "https://github.com/x20888450/Polaris-Obfuscators/actions/runs/12135866683/artifacts/2266363106"
+          curl -L -o Polaris-Obfuscators.zip "https://github.com/x20888450/Polaris-Obfuscators/actions/runs/12135866683/artifacts/2266363106"
           #unzip artifact.zip -d artifact_content
 
       # 发布 Release

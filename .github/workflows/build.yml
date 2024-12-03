@@ -44,7 +44,7 @@ jobs:
           name: ${{ github.event.inputs.version }} # 发布版本名称
           tag: ${{ github.event.inputs.version }}  # 发布版本标签
           body: 这是通过 GitHub Actions 自动构建发布的版本。 # 发布描述
-          artifacts: "/src"             # 包含的发布文件路径
+          artifacts: "src/build"             # 包含的发布文件路径
           allowUpdates: true            # 允许更新已存在的发布
           makeLatest: true              # 将此发布标记为最新版本
           omitBodyDuringUpdate: true    # 更新时省略正文内容

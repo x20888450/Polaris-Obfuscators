@@ -1,0 +1,23 @@
+name: build
+
+on:
+  #push:
+  workflow_dispatch:
+
+jobs:
+  build-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.1
+
+      - name: CMake build
+        run: cd llvm-project && cmake -S llvm -B build -G Ninja
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build
+          retention-days: 30

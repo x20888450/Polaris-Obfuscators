@@ -9,5 +9,6 @@ jobs:
       # 下载目标文件
       - name: Download
         run: |
-          curl -L -o Polaris-Obfuscators.zip "https://github.com/x20888450/Polaris-Obfuscators/archive/refs/tags/v1.0.zip"
-          unzip Polaris-Obfuscators.zip -d Polaris-Obfuscators
+          curl -L -o Polaris-Obfuscators.zip "https://github.com/x20888450/Polaris-Obfuscators/releases/download/v1.0/clang.zip"
+          unzip clang.zip -d clang
+          ./clang/clang -mllvm -passes=fla,indcall ./examples/1/example1.cpp -o test

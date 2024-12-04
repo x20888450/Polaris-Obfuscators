@@ -21,7 +21,12 @@ jobs:
           # 解压下载的 zip 文件到 clang 文件夹
           unzip clang.zip -d clang
 
-      # 第三步：替换 NDK 中的 clang 和 clang++
+      # 第三步：验证 clang 文件内容是否解压成功
+      - name: List files in clang folder
+        run: |
+          ls -l clang
+
+      # 第四步：替换 NDK 中的 clang 和 clang++
       - name: Replace NDK Clang
         run: |
           # 获取 ANDROID_NDK 环境变量值
@@ -30,13 +35,12 @@ jobs:
           fi
           # 定位到 NDK 的 bin 目录
           NDK_BIN="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin"
-          # 覆盖原有的 clang 和 clang++
-          cp clang/clang "$NDK_BIN/clang"
-          cp clang/clang++ "$NDK_BIN/clang++"
-          # 确保权限正确
-          chmod +x "$NDK_BIN/clang" "$NDK_BIN/clang++"
+          # 使用 sudo 替换原有的 clang 和 clang++
+          sudo cp clang/clang "$NDK_BIN/clang"
+          sudo cp clang/clang++ "$NDK_BIN/clang++"
+          sudo chmod +x "$NDK_BIN/clang" "$NDK_BIN/clang++"
 
-      # 第四步：验证替换是否成功
+      # 第五步：验证替换是否成功
       - name: Verify Clang Replacement
         run: |
           # 打印 clang 和 clang++ 的版本信息

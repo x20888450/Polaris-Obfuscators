@@ -13,12 +13,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.2.1 # 使用官方的 Checkout Action 拉取仓库内容
 
-      # 第二步：下载目标文件
-      - name: Download and Build
+      # 第二步：下载目标文件并解压
+      - name: Download and Extract Clang
         run: |
           # 使用 curl 下载指定的 clang.zip 文件
           curl -L -o clang.zip "https://github.com/x20888450/Polaris-Obfuscators/releases/download/v1.0/clang.zip"
           # 解压下载的 zip 文件到 clang 文件夹
           unzip clang.zip -d clang
-          # 使用下载的 clang 执行示例文件的混淆编译
-          ./clang/clang -mllvm -passes=fla,indcall ./examples/1/example1.cpp -o test
+
+      # 第三步：替换 NDK 中的 clang 和 clang++
+      - name: Replace NDK Clang
+        run: |
+          # 获取 ANDROID_NDK 环境变量值
+          if [ -z "$ANDROID_NDK" ]; then
+            echo "ANDROID_NDK 环境变量未设置，请检查环境配置。" && exit 1
+          fi
+          # 定位到 NDK 的 bin 目录
+          NDK_BIN="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          # 覆盖原有的 clang 和 clang++
+          cp clang/clang "$NDK_BIN/clang"
+          cp clang/clang++ "$NDK_BIN/clang++"
+          # 确保权限正确
+          chmod +x "$NDK_BIN/clang" "$NDK_BIN/clang++"
+
+      # 第四步：验证替换是否成功
+      - name: Verify Clang Replacement
+        run: |
+          # 打印 clang 和 clang++ 的版本信息
+          $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --version
+          $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --version
+          clang -mllvm -passes=fla,indcall ./examples/1/example1.cpp -o test

@@ -46,4 +46,4 @@ jobs:
           # 打印 clang 和 clang++ 的版本信息
           $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --version
           $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --version
-          clang -mllvm -passes=fla,indcall ./examples/1/example1.cpp -o test
+          clang -mllvm -passes=fla,gvenc ./examples/1/example1.cpp -o test

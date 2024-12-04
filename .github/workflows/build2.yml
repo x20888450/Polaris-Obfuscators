@@ -1,0 +1,13 @@
+name: build2
+
+on:
+  workflow_dispatch:
+jobs:
+  build2:
+    runs-on: ubuntu-latest
+    steps:
+      # 下载目标文件
+      - name: Download
+        run: |
+          curl -L -o Polaris-Obfuscators.zip "https://github.com/x20888450/Polaris-Obfuscators/archive/refs/tags/v1.0.zip"
+          unzip Polaris-Obfuscators.zip -d Polaris-Obfuscators

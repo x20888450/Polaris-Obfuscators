@@ -1,14 +1,24 @@
 name: build2
 
 on:
-  workflow_dispatch:
+  push: # 当推送代码到仓库时触发
+  workflow_dispatch: # 支持手动触发此工作流
+
 jobs:
   build2:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # 指定运行环境为最新版本的 Ubuntu
+
     steps:
-      # 下载目标文件
-      - name: Download
+      # 第一步：拉取代码仓库内容
+      - name: Checkout
+        uses: actions/checkout@v4.2.1 # 使用官方的 Checkout Action 拉取仓库内容
+
+      # 第二步：下载目标文件
+      - name: Download and Build
         run: |
+          # 使用 curl 下载指定的 clang.zip 文件
           curl -L -o clang.zip "https://github.com/x20888450/Polaris-Obfuscators/releases/download/v1.0/clang.zip"
+          # 解压下载的 zip 文件到 clang 文件夹
           unzip clang.zip -d clang
+          # 使用下载的 clang 执行示例文件的混淆编译
           ./clang/clang -mllvm -passes=fla,indcall ./examples/1/example1.cpp -o test

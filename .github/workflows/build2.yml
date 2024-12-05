@@ -1,49 +1,45 @@
 name: build2
 
 on:
-  push: # 当推送代码到仓库时触发
-  workflow_dispatch: # 支持手动触发此工作流
+  push:
+  workflow_dispatch:
 
 jobs:
   build2:
-    runs-on: ubuntu-latest # 指定运行环境为最新版本的 Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      # 第一步：拉取代码仓库内容
       - name: Checkout
-        uses: actions/checkout@v4.2.1 # 使用官方的 Checkout Action 拉取仓库内容
+        uses: actions/checkout@v4.2.1
 
-      # 第二步：下载目标文件并解压
       - name: Download and Extract Clang
         run: |
-          # 使用 curl 下载指定的 clang.zip 文件
           curl -L -o clang.zip "https://github.com/x20888450/Polaris-Obfuscators/releases/download/v1.0/clang.zip"
-          # 解压下载的 zip 文件到 clang 文件夹
+          if [ $? -ne 0 ]; then echo "下载 Clang 失败"; exit 1; fi
           unzip clang.zip -d clang
 
-      # 第三步：验证 clang 文件内容是否解压成功
-      #- name: List files in clang folder
-#        run: |
-       #   ls -l clang
+      - name: List files in clang folder
+        run: |
+          ls -l clang
 
-      # 第四步：替换 NDK 中的 clang 和 clang++
       - name: Replace NDK Clang
         run: |
-          # 获取 ANDROID_NDK 环境变量值
           if [ -z "$ANDROID_NDK" ]; then
             echo "ANDROID_NDK 环境变量未设置，请检查环境配置。" && exit 1
           fi
-          # 定位到 NDK 的 bin 目录
           NDK_BIN="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin"
-          # 使用 sudo 替换原有的 clang 和 clang++
           sudo cp clang/clang "$NDK_BIN/clang"
           sudo cp clang/clang++ "$NDK_BIN/clang++"
           sudo chmod +x "$NDK_BIN/clang" "$NDK_BIN/clang++"
 
-      # 第五步：验证替换是否成功
       - name: Verify Clang Replacement
         run: |
-          # 打印 clang 和 clang++ 的版本信息
-         # $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --version
-         # $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --version
+          if [ ! -f "$NDK_BIN/clang" ] || [ ! -f "$NDK_BIN/clang++" ]; then
+            echo "Clang 替换失败"; exit 1;
+          fi
+          clang --version
+          clang++ --version
+
+      - name: Build with Clang
+        run: |
           clang++ ./examples/2/example2.cpp -o test

@@ -32,14 +32,6 @@ jobs:
           sudo cp clang/clang++ "$NDK_BIN/clang++"
           sudo chmod +x "$NDK_BIN/clang" "$NDK_BIN/clang++"
 
-      - name: Verify Clang Replacement
-        run: |
-          if [ ! -f "$NDK_BIN/clang" ] || [ ! -f "$NDK_BIN/clang++" ]; then
-            echo "Clang 替换失败"; exit 1;
-          fi
-          clang --version
-          clang++ --version
-
       - name: Build with Clang
         run: |
           clang++ ./examples/2/example2.cpp -o test

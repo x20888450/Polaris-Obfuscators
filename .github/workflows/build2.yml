@@ -22,9 +22,9 @@ jobs:
           unzip clang.zip -d clang
 
       # 第三步：验证 clang 文件内容是否解压成功
-      - name: List files in clang folder
-        run: |
-          ls -l clang
+      #- name: List files in clang folder
+#        run: |
+       #   ls -l clang
 
       # 第四步：替换 NDK 中的 clang 和 clang++
       - name: Replace NDK Clang
@@ -44,6 +44,6 @@ jobs:
       - name: Verify Clang Replacement
         run: |
           # 打印 clang 和 clang++ 的版本信息
-          $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --version
-          $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --version
-          clang++ ./examples/2/example2.cpp -mllvm -passes=sub,bcf,fla -o test
+         # $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --version
+         # $ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --version
+          clang++ ./examples/2/example2.cpp -o test
